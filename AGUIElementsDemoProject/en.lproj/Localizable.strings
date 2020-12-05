@@ -1,0 +1,40 @@
+/* 
+  Localizable.strings
+  AGUIElementsDemoProject
+
+  Created by Артем Григорян on 30.11.2020.
+  
+*/
+
+"Main" = "Main";
+"Email" = "Email";
+"Phone" = "Phone";
+"Password" = "Password";
+"PickerWithSeparator" = "Picker with separator";
+"DateAndTime" = "Date and time";
+"Male" = "Male";
+"Female" = "Female";
+"FirstName" = "First name";
+"Date" = "Date";
+"PickerWithoutSeparator" = "Picker without separator";
+"Count" = "Count";
+"TextViewWithSymbolsCounter" = "TextView with symbols counter";
+"Settings" = "Settings";
+"Save" = "Save";
+"Cancel" = "Cancel";
+"Delete" = "Delete";
+"Add" = "Add";
+"Later" = "Later";
+"AddImage" = "Add image";
+"Close" = "Close";
+"Light" = "Light";
+"Dark" = "Dark";
+"Russian" = "Russian";
+"English" = "English";
+
+"FirstValue" = "1-st value";
+"SecondValue" = "2-nd value";
+"ThirdValue" = "3-d value";
+"FourthValue" = "4-th value";
+"FifthValue" = "5-th value";
+"SixthValue" = "6-th value";
