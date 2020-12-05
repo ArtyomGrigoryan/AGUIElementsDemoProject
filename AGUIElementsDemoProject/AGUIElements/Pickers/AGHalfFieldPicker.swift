@@ -80,6 +80,14 @@ class AGHalfFieldPicker: AGTextField {
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.setValue(AGThemeManager.textFieldTextColor, forKeyPath: "textColor")
         datePicker.translatesAutoresizingMaskIntoConstraints = false
+        // Если в региональных настройках iPhone выбран регион, где применяют AM и PM,
+        if !AGTimeFormatManager.is24HourTimeFormat {
+            // то в пикерах нужно будет их показывать.
+            datePicker.locale = Locale(identifier: AGConstants.Languages.english)
+        } else {
+            // Иначе, покажем 24-ой формат времени.
+            datePicker.locale = Locale(identifier: "en_GB")
+        }
          
         return datePicker
     }()
@@ -87,16 +95,23 @@ class AGHalfFieldPicker: AGTextField {
     /* Форматтер даты */
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
         
+        if AGTimeFormatManager.is24HourTimeFormat {
+            formatter.dateFormat = "HH:mm"
+        } else {
+            formatter.dateFormat = "h:mm a"
+        }
+
         return formatter
     }()
 
     // MARK: - Initializers
 
     init(isDetached: Bool, datePickerMode: UIDatePicker.Mode, hintLabelTextTranslationKey: String!, counterValue: Int = 1) {
+        // Узнаем текущее время, чтобы отправить в конструктор родительского класса.
+        let currentTime = formatter.string(from: Date())
         // Вызовем конструктор базового класса - EMMATextField.
-        super.init(isDetached: isDetached, textFieldText: "13:52", fieldType: .pickerField, width: UIScreen.main.bounds.size.width / 2 - 26, height: 62)
+        super.init(isDetached: isDetached, textFieldText: currentTime, fieldType: .pickerField, width: UIScreen.main.bounds.size.width / 2 - 26, height: 62)
         // У родительского класса установим ключ подсказки.
         super.hintLabelTextTranslationKey = hintLabelTextTranslationKey
         // У родительского класса установим текст подсказки.
@@ -193,6 +208,25 @@ class AGHalfFieldPicker: AGTextField {
         countLabel.textColor = AGThemeManager.halfPickerHintCountLabelColor
         hintCountLabel.textColor = AGThemeManager.halfPickerHintCountLabelColor
         datePicker.setValue(AGThemeManager.textFieldTextColor, forKeyPath: "textColor")
+    }
+    
+    /* Метод обновит язык компонента */
+    @objc override func changeLanguage() {
+        super.changeLanguage()
+        // Получим текущую дату из текстового поля.
+        let currentDate = formatter.date(from: textField.text!)
+        // Если в региональных настройках iPhone выбран регион, где применяют AM и PM,
+        if !AGTimeFormatManager.is24HourTimeFormat {
+            // то в пикерах нужно будет их показывать.
+            datePicker.locale = Locale(identifier: AGConstants.Languages.english)
+        } else {
+            // Иначе, покажем 24-ой формат времени.
+            datePicker.locale = Locale(identifier: "en_GB")
+        }
+        // У форматтера тоже нужно менять, чтобы при выборе даты в текстовое поле записывалась дата в нужном (текущем) языке.
+        formatter.locale = Locale(identifier: AGLanguageManager.currentLanguage)
+        // Обновим запись в текстовом поле.
+        textField.text = formatter.string(from: currentDate!)
     }
 }
 

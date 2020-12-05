@@ -13,8 +13,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
-        AGLanguageManager.currentLanguage = AGConstants.Languages.russian
+        // Узнаем текущий язык в настройках iPhone.
+        let iPhoneLanguage = Locale.current.languageCode
+        // Установим язык приложения при старте.
+        if iPhoneLanguage == AGConstants.Languages.russian {
+            AGLanguageManager.currentLanguage = AGConstants.Languages.russian
+        } else {
+            AGLanguageManager.currentLanguage = AGConstants.Languages.english
+        }
+        // Начнём подготовку к отображению первого вью контроллера.
         let window = UIWindow(windowScene: windowScene)
         let navigationController = UINavigationController()
         let viewController = ViewController()

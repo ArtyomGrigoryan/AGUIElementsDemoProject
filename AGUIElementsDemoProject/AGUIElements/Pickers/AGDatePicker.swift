@@ -19,6 +19,20 @@ class AGDatePicker: AGTextField {
         datePicker.backgroundColor = AGThemeManager.viewBackgroundColor
         datePicker.setValue(AGThemeManager.textFieldTextColor, forKeyPath: "textColor")
         datePicker.translatesAutoresizingMaskIntoConstraints = false
+        // Если в региональных настройках iPhone выбран регион, где применяют AM и PM,
+        if !AGTimeFormatManager.is24HourTimeFormat {
+            // то в пикерах нужно будет их показывать.
+            datePicker.locale = Locale(identifier: AGConstants.Languages.english)
+        } else {
+            // Иначе, просто поменяем язык у пикера.
+            if AGLanguageManager.currentLanguage == AGConstants.Languages.english {
+                // Если оставить просто en, то будут AM и PM, что при русском регионе в Настройках iPhone не нужно.
+                datePicker.locale = Locale(identifier: "en_GB")
+            } else {
+                // Пока только два языка, поэтому такая запись допустима.
+                datePicker.locale = Locale(identifier: AGLanguageManager.currentLanguage)
+            }
+        }
         
         return datePicker
     }()
@@ -26,7 +40,8 @@ class AGDatePicker: AGTextField {
     /* Форматтер даты */
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
-   
+        formatter.locale = Locale(identifier: AGLanguageManager.currentLanguage)
+
         return formatter
     }()
     
@@ -38,7 +53,11 @@ class AGDatePicker: AGTextField {
         // В зависимоти от требуемого мода времени, установим соответствующие форматы.
         switch datePickerMode {
         case .dateAndTime:
-            formatter.dateFormat = "dd MMM yyyy HH:mm"
+            if AGTimeFormatManager.is24HourTimeFormat {
+                formatter.dateFormat = "dd MMM yyyy HH:mm"
+            } else {
+                formatter.dateFormat = "dd MMM yyyy h:mm a"
+            }
         case .date:
             formatter.dateFormat = "dd MMM yyyy"
         default:
@@ -64,6 +83,8 @@ class AGDatePicker: AGTextField {
         textField.inputView = datePicker
         // Подпишемся на уведомления об изменении темы приложения.
         NotificationCenter.default.addObserver(self, selector: #selector(updateColors), name: .updateColors, object: nil)
+        // Подпишемся на уведомления об изменении языка приложения.
+        NotificationCenter.default.addObserver(self, selector: #selector(changeLanguage), name: .changeLanguage, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -78,6 +99,31 @@ class AGDatePicker: AGTextField {
         textField.tintColor = .clear
         datePicker.backgroundColor = AGThemeManager.viewBackgroundColor
         datePicker.setValue(AGThemeManager.textFieldTextColor, forKeyPath: "textColor")
+    }
+    
+    /* Метод обновит язык компонента */
+    @objc override func changeLanguage() {
+        super.changeLanguage()
+        // Получим текущую дату из текстового поля.
+        let currentDate = formatter.date(from: textField.text!)
+        // Если в региональных настройках iPhone выбран регион, где применяют AM и PM,
+        if !AGTimeFormatManager.is24HourTimeFormat {
+            // то в пикерах нужно будет их показывать.
+            datePicker.locale = Locale(identifier: AGConstants.Languages.english)
+        } else {
+            // Иначе, просто поменяем язык у пикера.
+            if AGLanguageManager.currentLanguage == AGConstants.Languages.english {
+                // Если оставить просто en, то будут AM и PM, что при русском регионе в Настройках iPhone не нужно.
+                datePicker.locale = Locale(identifier: "en_GB")
+            } else {
+                // Пока только два языка, поэтому такая запись допустима.
+                datePicker.locale = Locale(identifier: AGLanguageManager.currentLanguage)
+            }
+        }
+        // У форматтера тоже нужно менять, чтобы при выборе даты в текстовое поле записывалась дата в нужном (текущем) языке.
+        formatter.locale = Locale(identifier: AGLanguageManager.currentLanguage)
+        // Обновим запись в текстовом поле.
+        textField.text = formatter.string(from: currentDate!)
     }
 }
 

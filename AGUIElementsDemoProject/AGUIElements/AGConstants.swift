@@ -54,4 +54,12 @@ struct AGConstants {
         static let russian = "ru"
         static let english = "en"
     }
+    
+    struct CountryCodes {
+        static let USA = "US"
+        static let Canada = "CA"
+        static let Australia = "AU"
+        static let NewZeland = "NZ"
+        static let Philippines = "PH"
+    }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B23523A257C005A00B82E57 /* AGTimeFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B235239257C005A00B82E57 /* AGTimeFormatManager.swift */; };
 		2B2683C12575061700B7A6FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B2683C32575061700B7A6FE /* Localizable.strings */; };
 		2B2683CB2575156A00B7A6FE /* AGLanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2683CA2575156A00B7A6FE /* AGLanguageManager.swift */; };
 		2B346E13257BAAF200AEEF06 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2B346E12257BAAF200AEEF06 /* .gitignore */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B235239257C005A00B82E57 /* AGTimeFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGTimeFormatManager.swift; sourceTree = "<group>"; };
 		2B2683BB257505B800B7A6FE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2B2683C22575061700B7A6FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2B2683C42575061A00B7A6FE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 			children = (
 				2BD1DF942573BA7A00327E17 /* AGThemeManager.swift */,
 				2BD1DF982573BAEC00327E17 /* AGFontsManager.swift */,
+				2B235239257C005A00B82E57 /* AGTimeFormatManager.swift */,
 				2B2683CA2575156A00B7A6FE /* AGLanguageManager.swift */,
 			);
 			path = UI;
@@ -296,6 +299,7 @@
 				2BD1DF6D2573B7D200327E17 /* ViewController.swift in Sources */,
 				2BD1DF812573B8CD00327E17 /* AGConstants.swift in Sources */,
 				2BD1DF952573BA7A00327E17 /* AGThemeManager.swift in Sources */,
+				2B23523A257C005A00B82E57 /* AGTimeFormatManager.swift in Sources */,
 				2BD1DF8A2573B9C200327E17 /* NotificationExtension.swift in Sources */,
 				2BD1DF992573BAEC00327E17 /* AGFontsManager.swift in Sources */,
 				2BD1DF8F2573BA0E00327E17 /* AGToolbar.swift in Sources */,

@@ -8,5 +8,5 @@
 import Foundation
 
 struct AGLanguageManager {
-    static var currentLanguage = ""
+    static var currentLanguage = AGConstants.Languages.russian
 }
