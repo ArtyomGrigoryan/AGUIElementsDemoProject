@@ -62,8 +62,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-   
-        navigationItem.title = "Main".localize()
+    
         view.addSubview(scrollView)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false;
@@ -73,6 +72,7 @@ class ViewController: UIViewController {
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 
         drawInterface()
+        changeLanguage()
         updateColors()
     }
     

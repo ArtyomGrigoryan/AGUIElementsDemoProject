@@ -25,7 +25,6 @@ class SecondViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Settings".localize()
         // Текстовое поле для демонстрации изменения цветов AG элементов при переключении темы.
         textField1 = AGTextField(isDetached: true, textFieldText: "", placeholderTextTranslationKey: "Email", fieldType: .textField)
         view.addSubview(textField1)
@@ -73,6 +72,8 @@ class SecondViewController: UIViewController {
         checkCurrentLanguage()
         // Установим цвета, исходя из текущей темы.
         updateColors()
+        // Установим язык.
+        changeLanguage()
     }
     
     @objc private func lightThemeActionButtonTouched(_ sender: UIButton) {
