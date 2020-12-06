@@ -161,20 +161,12 @@
 		2BD1DF922573BA4600327E17 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				2BD1DF932573BA5800327E17 /* UI */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
-		2BD1DF932573BA5800327E17 /* UI */ = {
-			isa = PBXGroup;
-			children = (
 				2BD1DF942573BA7A00327E17 /* AGThemeManager.swift */,
 				2BD1DF982573BAEC00327E17 /* AGFontsManager.swift */,
 				2B235239257C005A00B82E57 /* AGTimeFormatManager.swift */,
 				2B2683CA2575156A00B7A6FE /* AGLanguageManager.swift */,
 			);
-			path = UI;
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		2BD1DF9B2573BB1D00327E17 /* Abstract AG classes */ = {
