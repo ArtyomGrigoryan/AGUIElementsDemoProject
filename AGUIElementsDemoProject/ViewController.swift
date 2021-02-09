@@ -117,7 +117,7 @@ class ViewController: UIViewController {
         scrollView.addSubview(buttonsStackView)
         
         // Обычное текстовое поле.
-        textField4 = AGTextField(isDetached: false, textFieldText: "", placeholderTextTranslationKey: "FirstName", keyboardType: .alphabet)
+        textField4 = AGTextField(isDetached: false, textFieldText: "", placeholderTextTranslationKey: "FirstName", keyboardType: .default)
         textField4.delegate = self
 
         // Текстовое поле, содержащее пикер с выбором даты.

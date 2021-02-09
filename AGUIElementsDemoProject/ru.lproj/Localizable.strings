@@ -16,7 +16,7 @@
 "Female" = "Женщина";
 "FirstName" = "Имя";
 "Date" = "Дата";
-"PickerWithoutSeparator" = "Пикер с разделителем";
+"PickerWithoutSeparator" = "Пикер без разделителя";
 "Count" = "Количество";
 "TextViewWithSymbolsCounter" = "TextView со счётчиком";
 "Settings" = "Настройки";
