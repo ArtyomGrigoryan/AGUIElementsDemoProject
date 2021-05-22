@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 struct AGThemeManager {
     static var navigationBarStyle: UIBarStyle {

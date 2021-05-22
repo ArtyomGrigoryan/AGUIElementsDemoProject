@@ -83,7 +83,7 @@ class AGHalfFieldPicker: AGTextField {
         // Если в региональных настройках iPhone выбран регион, где применяют AM и PM,
         if !AGTimeFormatManager.is24HourTimeFormat {
             // то в пикерах нужно будет их показывать.
-            datePicker.locale = Locale(identifier: AGConstants.Languages.english)
+            datePicker.locale = Locale(identifier: AGConstants.Languages.english.rawValue)
         } else {
             // Иначе, покажем 24-ой формат времени.
             datePicker.locale = Locale(identifier: "en_GB")
@@ -218,13 +218,13 @@ class AGHalfFieldPicker: AGTextField {
         // Если в региональных настройках iPhone выбран регион, где применяют AM и PM,
         if !AGTimeFormatManager.is24HourTimeFormat {
             // то в пикерах нужно будет их показывать.
-            datePicker.locale = Locale(identifier: AGConstants.Languages.english)
+            datePicker.locale = Locale(identifier: AGConstants.Languages.english.rawValue)
         } else {
             // Иначе, покажем 24-ой формат времени.
             datePicker.locale = Locale(identifier: "en_GB")
         }
         // У форматтера тоже нужно менять, чтобы при выборе даты в текстовое поле записывалась дата в нужном (текущем) языке.
-        formatter.locale = Locale(identifier: AGLanguageManager.currentLanguage)
+        formatter.locale = Locale(identifier: AGLanguageManager.currentLanguage.rawValue)
         // Обновим запись в текстовом поле.
         textField.text = formatter.string(from: currentDate!)
     }

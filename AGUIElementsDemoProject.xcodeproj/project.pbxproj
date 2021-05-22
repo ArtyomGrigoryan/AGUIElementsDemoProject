@@ -7,10 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B1FFA7326591AA100287EAE /* SecondMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FFA7226591AA100287EAE /* SecondMenuViewController.swift */; };
+		2B1FFA7526591ABF00287EAE /* ThirdMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FFA7426591ABF00287EAE /* ThirdMenuViewController.swift */; };
+		2B1FFA7726591AE000287EAE /* FourthMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FFA7626591AE000287EAE /* FourthMenuViewController.swift */; };
+		2B1FFA7926591AF900287EAE /* FifthMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B1FFA7826591AF900287EAE /* FifthMenuViewController.swift */; };
 		2B23523A257C005A00B82E57 /* AGTimeFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B235239257C005A00B82E57 /* AGTimeFormatManager.swift */; };
 		2B2683C12575061700B7A6FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2B2683C32575061700B7A6FE /* Localizable.strings */; };
 		2B2683CB2575156A00B7A6FE /* AGLanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B2683CA2575156A00B7A6FE /* AGLanguageManager.swift */; };
 		2B346E13257BAAF200AEEF06 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2B346E12257BAAF200AEEF06 /* .gitignore */; };
+		2B70E516264D6A3A00B0F3BC /* AGTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B70E515264D6A3A00B0F3BC /* AGTabBarController.swift */; };
+		2B70E518264D6A6600B0F3BC /* AGTabBarPopupMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B70E517264D6A6600B0F3BC /* AGTabBarPopupMenuView.swift */; };
+		2B70E51C264D75EB00B0F3BC /* CenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B70E51B264D75EB00B0F3BC /* CenterViewController.swift */; };
+		2B70E51E264D75F800B0F3BC /* RightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B70E51D264D75F800B0F3BC /* RightViewController.swift */; };
+		2B70E520264D76C700B0F3BC /* FirstMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B70E51F264D76C700B0F3BC /* FirstMenuViewController.swift */; };
+		2B7276FA26555E1300AB8ED0 /* AGTabBarPopupButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7276F926555E1300AB8ED0 /* AGTabBarPopupButton.swift */; };
 		2BADFC5D257663D200AF7B17 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BADFC5C257663D200AF7B17 /* StringExtension.swift */; };
 		2BD1DF692573B7D200327E17 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD1DF682573B7D200327E17 /* AppDelegate.swift */; };
 		2BD1DF6B2573B7D200327E17 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD1DF6A2573B7D200327E17 /* SceneDelegate.swift */; };
@@ -38,12 +48,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B1FFA7226591AA100287EAE /* SecondMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondMenuViewController.swift; sourceTree = "<group>"; };
+		2B1FFA7426591ABF00287EAE /* ThirdMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdMenuViewController.swift; sourceTree = "<group>"; };
+		2B1FFA7626591AE000287EAE /* FourthMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourthMenuViewController.swift; sourceTree = "<group>"; };
+		2B1FFA7826591AF900287EAE /* FifthMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FifthMenuViewController.swift; sourceTree = "<group>"; };
 		2B235239257C005A00B82E57 /* AGTimeFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGTimeFormatManager.swift; sourceTree = "<group>"; };
 		2B2683BB257505B800B7A6FE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2B2683C22575061700B7A6FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2B2683C42575061A00B7A6FE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2B2683CA2575156A00B7A6FE /* AGLanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGLanguageManager.swift; sourceTree = "<group>"; };
 		2B346E12257BAAF200AEEF06 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		2B70E515264D6A3A00B0F3BC /* AGTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGTabBarController.swift; sourceTree = "<group>"; };
+		2B70E517264D6A6600B0F3BC /* AGTabBarPopupMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGTabBarPopupMenuView.swift; sourceTree = "<group>"; };
+		2B70E51B264D75EB00B0F3BC /* CenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterViewController.swift; sourceTree = "<group>"; };
+		2B70E51D264D75F800B0F3BC /* RightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightViewController.swift; sourceTree = "<group>"; };
+		2B70E51F264D76C700B0F3BC /* FirstMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstMenuViewController.swift; sourceTree = "<group>"; };
+		2B7276F926555E1300AB8ED0 /* AGTabBarPopupButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AGTabBarPopupButton.swift; sourceTree = "<group>"; };
 		2BADFC5C257663D200AF7B17 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		2BD1DF652573B7D200327E17 /* AGUIElementsDemoProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AGUIElementsDemoProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BD1DF682573B7D200327E17 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +103,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B70E514264D69FD00B0F3BC /* Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				2B70E515264D6A3A00B0F3BC /* AGTabBarController.swift */,
+				2B70E517264D6A6600B0F3BC /* AGTabBarPopupMenuView.swift */,
+				2B7276F926555E1300AB8ED0 /* AGTabBarPopupButton.swift */,
+			);
+			path = "Tab Bar";
+			sourceTree = "<group>";
+		};
 		2BD1DF5C2573B7D200327E17 = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +142,13 @@
 				2BD1DF712573B7D500327E17 /* Assets.xcassets */,
 				2BD1DF732573B7D500327E17 /* LaunchScreen.storyboard */,
 				2BD1DF762573B7D500327E17 /* Info.plist */,
+				2B70E51B264D75EB00B0F3BC /* CenterViewController.swift */,
+				2B70E51D264D75F800B0F3BC /* RightViewController.swift */,
+				2B70E51F264D76C700B0F3BC /* FirstMenuViewController.swift */,
+				2B1FFA7226591AA100287EAE /* SecondMenuViewController.swift */,
+				2B1FFA7426591ABF00287EAE /* ThirdMenuViewController.swift */,
+				2B1FFA7626591AE000287EAE /* FourthMenuViewController.swift */,
+				2B1FFA7826591AF900287EAE /* FifthMenuViewController.swift */,
 			);
 			path = AGUIElementsDemoProject;
 			sourceTree = "<group>";
@@ -128,6 +165,7 @@
 				2BD1DFA32573BB8300327E17 /* Text fields */,
 				2BD1DFAC2573BD1900327E17 /* Pickers */,
 				2BD1DFB72573BE5700327E17 /* Buttons */,
+				2B70E514264D69FD00B0F3BC /* Tab Bar */,
 				2BD1DFBF2573BF1A00327E17 /* Stack views */,
 			);
 			path = AGUIElements;
@@ -289,25 +327,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BD1DF6D2573B7D200327E17 /* ViewController.swift in Sources */,
+				2B70E51E264D75F800B0F3BC /* RightViewController.swift in Sources */,
 				2BD1DF812573B8CD00327E17 /* AGConstants.swift in Sources */,
 				2BD1DF952573BA7A00327E17 /* AGThemeManager.swift in Sources */,
+				2B70E51C264D75EB00B0F3BC /* CenterViewController.swift in Sources */,
+				2B1FFA7726591AE000287EAE /* FourthMenuViewController.swift in Sources */,
+				2B1FFA7326591AA100287EAE /* SecondMenuViewController.swift in Sources */,
+				2B70E516264D6A3A00B0F3BC /* AGTabBarController.swift in Sources */,
 				2B23523A257C005A00B82E57 /* AGTimeFormatManager.swift in Sources */,
 				2BD1DF8A2573B9C200327E17 /* NotificationExtension.swift in Sources */,
+				2B1FFA7526591ABF00287EAE /* ThirdMenuViewController.swift in Sources */,
 				2BD1DF992573BAEC00327E17 /* AGFontsManager.swift in Sources */,
 				2BD1DF8F2573BA0E00327E17 /* AGToolbar.swift in Sources */,
 				2BD1DFA52573BB9B00327E17 /* AGTextField.swift in Sources */,
 				2BD1DFB92573BE9900327E17 /* AGTabButton.swift in Sources */,
 				2BD1DFCD2573C1BB00327E17 /* SecondViewController.swift in Sources */,
 				2BD1DF9D2573BB4800327E17 /* AGView.swift in Sources */,
+				2B70E518264D6A6600B0F3BC /* AGTabBarPopupMenuView.swift in Sources */,
 				2BD1DFAE2573BD2A00327E17 /* AGDatePicker.swift in Sources */,
 				2BD1DFC52573BF6100327E17 /* AGTextFieldsStackView.swift in Sources */,
 				2BD1DFA12573BB6700327E17 /* AGButton.swift in Sources */,
 				2BD1DFB52573BDE900327E17 /* AGHalfFieldPicker.swift in Sources */,
+				2B70E520264D76C700B0F3BC /* FirstMenuViewController.swift in Sources */,
 				2BD1DFBD2573BED900327E17 /* AGActionButton.swift in Sources */,
 				2BD1DFC12573BF4300327E17 /* AGButtonsStackView.swift in Sources */,
 				2B2683CB2575156A00B7A6FE /* AGLanguageManager.swift in Sources */,
 				2BD1DF692573B7D200327E17 /* AppDelegate.swift in Sources */,
 				2BADFC5D257663D200AF7B17 /* StringExtension.swift in Sources */,
+				2B1FFA7926591AF900287EAE /* FifthMenuViewController.swift in Sources */,
+				2B7276FA26555E1300AB8ED0 /* AGTabBarPopupButton.swift in Sources */,
 				2BD1DFB22573BD8B00327E17 /* AGValuePicker.swift in Sources */,
 				2BD1DF6B2573B7D200327E17 /* SceneDelegate.swift in Sources */,
 				2BD1DFAA2573BC8800327E17 /* AGTextView.swift in Sources */,

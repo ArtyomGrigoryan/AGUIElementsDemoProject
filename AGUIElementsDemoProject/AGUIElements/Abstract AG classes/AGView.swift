@@ -11,10 +11,11 @@ class AGView: UIView {
     
     // MARK: - Initializing
     
-    init(width: CGFloat, height: CGFloat) {
-        super.init(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        backgroundColor = AGThemeManager.elementsBackgroundColor
+    init(width: CGFloat, height: CGFloat, y: CGFloat = 0) {
+        super.init(frame: CGRect(x: 0, y: y, width: width, height: height))
         translatesAutoresizingMaskIntoConstraints = false
+        // Установим цвет для view.
+        updateColors()
         // Подпишемся на уведомления об изменении темы приложения.
         NotificationCenter.default.addObserver(self, selector: #selector(updateColors), name: .updateColors, object: nil)
     }

@@ -79,7 +79,7 @@ class AGTextField: AGView {
     
     /* Конструктор инициализирует текстовое поле и лейбл-подсказку данными, и настраивает их визуальные атрибуты */
     init(isDetached: Bool, textFieldText: String!, placeholderTextTranslationKey: String = "", keyboardType: UIKeyboardType = .default, fieldType: AGTextFieldType = .textField, width: CGFloat = UIScreen.main.bounds.size.width - 32, height: CGFloat = 62) {
-        // Вызовем конструктор базового класса - EMMAView.
+        // Вызовем конструктор базового класса - AGView.
         super.init(width: width, height: height)
         // Запомним тип поля, так как его придется проверять в textFieldDidEndEditing.
         self.fieldType = fieldType

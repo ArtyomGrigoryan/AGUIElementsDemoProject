@@ -21,8 +21,15 @@ class AGActionButton: AGButton {
     // MARK: - Initializing
     
     init(actionButtonType: AGActionButtonType = .submit, titleKey: String!, font: UIFont? = AGFontsManager.baseButtonSF) {
+        // Установим размеры для кнопки.
+        let width: CGFloat = UIScreen.main.bounds.size.width - 32
+        let height: CGFloat = 50
         // Вызовем конструктор базового класса, и передадим в него данные.
-        super.init(buttonTitleKey: titleKey, font: font, width: UIScreen.main.bounds.size.width - 32, height: 50)
+        super.init(buttonTitleKey: titleKey, font: font, width: width, height: height)
+        translatesAutoresizingMaskIntoConstraints = false
+        // Установим констрейнты высоты и ширины для кнопки.
+        widthAnchor.constraint(equalToConstant: width).isActive = true
+        heightAnchor.constraint(equalToConstant: height).isActive = true
         // Закруглим углы у кнопки.
         layer.cornerRadius = 25
         // В зависимоти от желаемого типа кнопки, настроим её внешний вид.
@@ -44,11 +51,11 @@ class AGActionButton: AGButton {
             layer.borderWidth = 1.0
             layer.borderColor = AGThemeManager.halfPickerButtonImageTintColor.cgColor
         case .clear:
-            setTitleColor(AGThemeManager.halfPickerButtonImageTintColor, for: .normal)
             backgroundColor = .clear
+            setTitleColor(AGThemeManager.halfPickerButtonImageTintColor, for: .normal)
         case .withImage(let imageName):
-            setTitleColor(AGThemeManager.halfPickerButtonImageTintColor, for: .normal)
             backgroundColor = .clear
+            setTitleColor(AGThemeManager.halfPickerButtonImageTintColor, for: .normal)
             setImage(UIImage(named: imageName)?.withTintColor(AGThemeManager.halfPickerButtonImageTintColor), for: .normal)
             titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
             imageEdgeInsets = UIEdgeInsets(top: 15, left: 4, bottom: 15, right: frame.size.width - 24)
@@ -75,7 +82,7 @@ class AGActionButton: AGButton {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         UIView.animate(withDuration: 0.17, animations: { [weak self] in
             self?.alpha = 0.5
-        }) { [weak self] (bool) in
+        }) { [weak self] _ in
             self?.alpha = 1
         }
         super.touchesBegan(touches, with: event)

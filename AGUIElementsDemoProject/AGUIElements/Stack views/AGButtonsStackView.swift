@@ -11,13 +11,11 @@ class AGButtonsStackView: UIStackView {
 
     // MARK: - Initializing
     
-    init(buttonsArray: [AGButton], axis: NSLayoutConstraint.Axis, spacing: CGFloat) {
+    init(buttonsArray: [AGButton], axis: NSLayoutConstraint.Axis, spacing: CGFloat, width: CGFloat = UIScreen.main.bounds.size.width - 32) {
         // Установим в переменную buttonsArrayCount количество переданных текстовых полей.
         let buttonsArrayCount = buttonsArray.count
         // Переменная для хранения высоты стека.
         var stackViewHeight: CGFloat!
-        // Переменная для хранения ширины стека.
-        let stackViewWidth = UIScreen.main.bounds.size.width - 32
         // В зависимости от переданной оси, проведем расчеты высоты стека.
         switch axis {
         case .horizontal:
@@ -28,7 +26,7 @@ class AGButtonsStackView: UIStackView {
             fatalError("В будущих версиях Apple поменяла оси :D")
         }
         // Вызовем конструктор родительского класса, установим ширину и высоту стека с кнопками.
-        super.init(frame: CGRect(x: 0, y: 0, width: stackViewWidth, height: stackViewHeight))
+        super.init(frame: CGRect(x: 0, y: 0, width: width, height: stackViewHeight))
         // Произведем настройки
         super.spacing = spacing
         super.axis = axis

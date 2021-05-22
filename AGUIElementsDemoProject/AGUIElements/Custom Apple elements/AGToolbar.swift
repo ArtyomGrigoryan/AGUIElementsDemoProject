@@ -35,7 +35,7 @@ class AGToolbar: UIToolbar {
     // MARK: - Initializing
 
     init(type: ToolbarType) {
-        super.init(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.size.width, height: 44.0)))
+        super.init(frame: CGRect(origin: .zero, size: CGSize(width: UIScreen.main.bounds.size.width, height: 44)))
         
         switch type {
         case .textField:

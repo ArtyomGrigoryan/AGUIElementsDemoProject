@@ -62,7 +62,6 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         view.addSubview(scrollView)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false;
@@ -176,7 +175,7 @@ class ViewController: UIViewController {
     
     /* Когда пользователь сменит язык, то вызовется эта функция */
     @objc func changeLanguage() {
-        navigationItem.title = "Main".localize()
+        tabBarController?.navigationItem.title = "Main".localize()
     }
     
     /* Покажем второй контроллер (Настройки) */
@@ -202,22 +201,29 @@ class ViewController: UIViewController {
             let userInfo = notification.userInfo,
             let kbFrameSize = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
         else { return }
-        // Переменная, в которой будет храниться координата нижней части выбранного объекта.
-        var bottomOfTextField: CGFloat = 0
-        // Координата верхней части клавиатуры.
-        let topOfKeyboard = scrollView.frame.size.height - kbFrameSize.size.height
         // Тут будем хранить новые координаты для scrollView.
         let contentInsets: UIEdgeInsets
+        // Координата верхней части клавиатуры.
+        let topOfKeyboard = scrollView.frame.size.height - kbFrameSize.size.height
+        // Переменная, в которой будет храниться координата нижней части выбранного объекта.
+        var bottomOfTextField: CGFloat = 0
+        // Если есть таб-бар, то нужно учитывать его высоту.
+        var additionalOffsetFromTabBar: CGFloat = 0
+        // Получим высоту таб-бара,
+        if let tabBarControllerFrameHeight = tabBarController?.tabBar.frame.size.height {
+            // и присвоим её вышесозданной переменной.
+            additionalOffsetFromTabBar = tabBarControllerFrameHeight
+        }
         // Если нажатие произошло по textField,
         if let activeField = activeField {
             bottomOfTextField = activeField.convert(activeField.bounds, to: view).maxY
             // то ничего дополнительного прибавлять к переменной координат для scrollView не нужно.
-            contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbFrameSize.height, right: 0)
+            contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbFrameSize.height - additionalOffsetFromTabBar, right: 0)
         // Если нажатие произошло по textView,
         } else if let activeTextView = activeTextView {
             bottomOfTextField = activeTextView.convert(activeTextView.bounds, to: view).maxY + 15
             // то scrollView нужно поднять повыше (+15), чтобы пользователь увидел счетчик введенных символов в этот textView.
-            contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbFrameSize.height + 15, right: 0)
+            contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbFrameSize.height + 15 - additionalOffsetFromTabBar, right: 0)
         } else {
             contentInsets = UIEdgeInsets.zero
         }
@@ -277,12 +283,8 @@ class ViewController: UIViewController {
         doctorNametextView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
         doctorNametextView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
         
-        let buttonsStackView2TopAnchor = buttonsStackView2.topAnchor.constraint(equalTo: doctorNametextView.bottomAnchor, constant: 12)
-        let buttonsStackView2LeadingAnchor = buttonsStackView2.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16)
-        let buttonsStackView2TrailingAnchor = buttonsStackView2.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16)
-        buttonsStackView2TrailingAnchor.priority = UILayoutPriority(999)
-
-        NSLayoutConstraint.activate([buttonsStackView2TopAnchor, buttonsStackView2LeadingAnchor, buttonsStackView2TrailingAnchor])
+        buttonsStackView2.topAnchor.constraint(equalTo: doctorNametextView.bottomAnchor, constant: 12).isActive = true
+        buttonsStackView2.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
     }
 }
 

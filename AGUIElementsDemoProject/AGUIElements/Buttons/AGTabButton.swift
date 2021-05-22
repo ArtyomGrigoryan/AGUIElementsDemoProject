@@ -12,7 +12,15 @@ class AGTabButton: AGButton {
     // MARK: - Initializing
     
     init(buttonTitleKey: String!, isButtonSelected: Bool!, font: UIFont? = AGFontsManager.baseButtonSF) {
-        super.init(buttonTitleKey: buttonTitleKey, font: font, width: UIScreen.main.bounds.size.width / 2 - 22, height: 58)
+        // Размеры кнопки.
+        let width: CGFloat = UIScreen.main.bounds.size.width / 2 - 22
+        let height: CGFloat = 58
+        // Вызовем конструктор родительского класса.
+        super.init(buttonTitleKey: buttonTitleKey, font: font, width: width, height: height)
+        translatesAutoresizingMaskIntoConstraints = false
+        // Установим констрейнты высоты и ширины для кнопки.
+        heightAnchor.constraint(equalToConstant: 58).isActive = true
+        widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.size.width / 2 - 22).isActive = true
         // Настроим для кнопки внешний вид.
         layer.cornerRadius = 4
         layer.shadowPath = UIBezierPath(rect: bounds).cgPath

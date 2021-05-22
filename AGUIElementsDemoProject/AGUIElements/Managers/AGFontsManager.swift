@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 struct AGFontsManager {
     static var littleSF: UIFont {

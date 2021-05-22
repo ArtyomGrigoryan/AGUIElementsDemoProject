@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum AGLineViewPosition {
+private enum AGLineViewPosition {
     case top
     case bottom
 }
@@ -92,9 +92,9 @@ class AGTextFieldsStackView: AGView {
         // Укажем соответствующие констрейнты для полоски, в зависимости от желаемого положения полоски на текстовом поле.
         switch position {
         case .top:
-            setupConstraints(from: lineView, to: textField, height: 0.5, width:  textField.frame.size.width - 16, topConstant: 0, bottomConstant: 0.5 - textField.frame.size.height, leadingConstant: 16, trailingConstant: 0)
+            setupConstraints(from: lineView, to: textField, height: 0.5, width: textField.frame.size.width - 16, topConstant: 0, bottomConstant: 0.5 - textField.frame.size.height, leadingConstant: 16, trailingConstant: 0)
         case .bottom:
-            setupConstraints(from: lineView, to: textField, height: 0.5, width:  textField.frame.size.width - 16, topConstant: textField.frame.size.height - 0.5, bottomConstant: 0, leadingConstant: 16, trailingConstant: 0)
+            setupConstraints(from: lineView, to: textField, height: 0.5, width: textField.frame.size.width - 16, topConstant: textField.frame.size.height - 0.5, bottomConstant: 0, leadingConstant: 16, trailingConstant: 0)
         }
     }
 

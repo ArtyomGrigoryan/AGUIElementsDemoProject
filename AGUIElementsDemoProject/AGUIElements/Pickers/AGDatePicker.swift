@@ -22,7 +22,7 @@ class AGDatePicker: AGTextField {
         // Если в региональных настройках iPhone выбран регион, где применяют AM и PM,
         if !AGTimeFormatManager.is24HourTimeFormat {
             // то в пикерах нужно будет их показывать.
-            datePicker.locale = Locale(identifier: AGConstants.Languages.english)
+            datePicker.locale = Locale(identifier: AGConstants.Languages.english.rawValue)
         } else {
             // Иначе, просто поменяем язык у пикера.
             if AGLanguageManager.currentLanguage == AGConstants.Languages.english {
@@ -30,7 +30,7 @@ class AGDatePicker: AGTextField {
                 datePicker.locale = Locale(identifier: "en_GB")
             } else {
                 // Пока только два языка, поэтому такая запись допустима.
-                datePicker.locale = Locale(identifier: AGLanguageManager.currentLanguage)
+                datePicker.locale = Locale(identifier: AGLanguageManager.currentLanguage.rawValue)
             }
         }
         
@@ -40,7 +40,7 @@ class AGDatePicker: AGTextField {
     /* Форматтер даты */
     private let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: AGLanguageManager.currentLanguage)
+        formatter.locale = Locale(identifier: AGLanguageManager.currentLanguage.rawValue)
 
         return formatter
     }()
@@ -109,7 +109,7 @@ class AGDatePicker: AGTextField {
         // Если в региональных настройках iPhone выбран регион, где применяют AM и PM,
         if !AGTimeFormatManager.is24HourTimeFormat {
             // то в пикерах нужно будет их показывать.
-            datePicker.locale = Locale(identifier: AGConstants.Languages.english)
+            datePicker.locale = Locale(identifier: AGConstants.Languages.english.rawValue)
         } else {
             // Иначе, просто поменяем язык у пикера.
             if AGLanguageManager.currentLanguage == AGConstants.Languages.english {
@@ -117,11 +117,11 @@ class AGDatePicker: AGTextField {
                 datePicker.locale = Locale(identifier: "en_GB")
             } else {
                 // Пока только два языка, поэтому такая запись допустима.
-                datePicker.locale = Locale(identifier: AGLanguageManager.currentLanguage)
+                datePicker.locale = Locale(identifier: AGLanguageManager.currentLanguage.rawValue)
             }
         }
         // У форматтера тоже нужно менять, чтобы при выборе даты в текстовое поле записывалась дата в нужном (текущем) языке.
-        formatter.locale = Locale(identifier: AGLanguageManager.currentLanguage)
+        formatter.locale = Locale(identifier: AGLanguageManager.currentLanguage.rawValue)
         // Обновим запись в текстовом поле.
         textField.text = formatter.string(from: currentDate!)
     }

@@ -24,7 +24,6 @@ class SecondViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Текстовое поле для демонстрации изменения цветов AG элементов при переключении темы.
         textField1 = AGTextField(isDetached: true, textFieldText: "", placeholderTextTranslationKey: "Email", fieldType: .textField)
         view.addSubview(textField1)
@@ -49,23 +48,16 @@ class SecondViewController: UIViewController {
         buttonsStackView = AGButtonsStackView(buttonsArray: actionButtonsArray, axis: .horizontal, spacing: 12)
         view.addSubview(buttonsStackView)
         
-        let buttonsStackViewTopAnchor = buttonsStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 300)
-        let buttonsStackViewLeadingAnchor = buttonsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        let buttonsStackViewTrailingAnchor = buttonsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        buttonsStackViewTrailingAnchor.priority = UILayoutPriority(999)
-
-        NSLayoutConstraint.activate([buttonsStackViewTopAnchor, buttonsStackViewLeadingAnchor, buttonsStackViewTrailingAnchor])
+        buttonsStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 300).isActive = true
+        buttonsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         
         let actionButtonsArray2: [AGButton] = [ruButton, enButton]
         buttonsStackView2 = AGButtonsStackView(buttonsArray: actionButtonsArray2, axis: .horizontal, spacing: 12)
         view.addSubview(buttonsStackView2)
         
-        let buttonsStackView2TopAnchor = buttonsStackView2.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 12)
-        let buttonsStackView2LeadingAnchor = buttonsStackView2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
-        let buttonsStackView2TrailingAnchor = buttonsStackView2.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        buttonsStackView2TrailingAnchor.priority = UILayoutPriority(999)
+        buttonsStackView2.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 12).isActive = true
+        buttonsStackView2.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
 
-        NSLayoutConstraint.activate([buttonsStackView2TopAnchor, buttonsStackView2LeadingAnchor, buttonsStackView2TrailingAnchor])
         // Установим переключатель в нужное положение, исходя из текущей темы.
         checkCurrentTheme()
         // Установим переключатель в нужное положение, исходя из текущего языка приложения.
@@ -135,7 +127,7 @@ class SecondViewController: UIViewController {
         // Изменим цвет букв для статус-бара.
         navigationController?.navigationBar.barStyle = AGThemeManager.navigationBarStyle
         // Изменим цвет навигейшн контроллера.
-        navigationController?.navigationBar.barTintColor = AGThemeManager.viewBackgroundColor
+        navigationController?.navigationBar.barTintColor = AGThemeManager.elementsBackgroundColor
         // Изменим цвет заголовков в навигейшн контроллере.
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:AGThemeManager.halfPickerHintCountLabelColor]
     }

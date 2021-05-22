@@ -16,19 +16,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Узнаем текущий язык в настройках iPhone.
         let iPhoneLanguage = Locale.current.languageCode
         // Установим язык приложения при старте.
-        if iPhoneLanguage == AGConstants.Languages.russian {
+        if iPhoneLanguage == AGConstants.Languages.russian.rawValue {
             AGLanguageManager.currentLanguage = AGConstants.Languages.russian
         } else {
             AGLanguageManager.currentLanguage = AGConstants.Languages.english
         }
-        // Начнём подготовку к отображению первого вью контроллера.
-        let window = UIWindow(windowScene: windowScene)
+        // Вью-контроллеры ниже - это контроллеры, которые будут в таб-баре.
+        let tabBarControllersArray = [ViewController(), CenterViewController(), RightViewController()]
+        // Массив иконок, которые будут в таб-баре.
+        let tabBarIconsArray = ["graphIcon", "expandMenuIcon", "menuOtherIcon"]
+        // Массив вью-контроллеров ниже - это контроллеры, которые будут запускаться при нажатии на кнопку в popup кнопке-меню таб-бара.
+        let menuVCArray = [FirstMenuViewController(), SecondMenuViewController(), ThirdMenuViewController(),
+                           FourthMenuViewController(), FifthMenuViewController()]
+        // Массив иконок, которые будут в popup кнопке-меню таб-бара.
+        let popupMenuIconsArray = ["settingsMenuIcon", "pillsIcon", "msrmIcon", "graphIcon", "testIcon"]
+        // Массив подписей к иконкам, которые будут в popup кнопке-меню таб-бара.
+        let popupMenuTextsArray = ["Main", "Email", "Phone", "Password", "Delete"]
+        // Проинициализируем AGTabBarController ранее созданными контроллерами, иконками, и подписями к иконкам.
+        let tabBarController = AGTabBarController(tabBarIconsArray: tabBarIconsArray,
+                                                  tabBarViewControllersArray: tabBarControllersArray,
+                                                  popupMenuIconsArray: popupMenuIconsArray,
+                                                  popupMenuTextsArray: popupMenuTextsArray,
+                                                  popupMenuViewControllersArray: menuVCArray)
+        // Начнём подготовку к отображению всех контроллеров.
+        let myWindow = UIWindow(windowScene: windowScene)
         let navigationController = UINavigationController()
-        let viewController = ViewController()
-        navigationController.viewControllers = [viewController]
-        window.rootViewController = navigationController
-        window.makeKeyAndVisible()
-        self.window = window
+        navigationController.viewControllers = [tabBarController]
+        myWindow.rootViewController = navigationController
+        myWindow.makeKeyAndVisible()
+        window = myWindow
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

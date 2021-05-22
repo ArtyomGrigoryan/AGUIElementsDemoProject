@@ -16,20 +16,14 @@ class AGButton: UIButton {
     // MARK: - Initializing
 
     init(buttonTitleKey: String!, font: UIFont!, width: CGFloat, height: CGFloat) {
+        // Вызовем конструктор базового класса - UIButton.
         super.init(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        // Сделаем предварительные настройки у кнопки, они будут у всех кнопок-наследников.
-        contentVerticalAlignment = .center
-        contentHorizontalAlignment = .center
-        translatesAutoresizingMaskIntoConstraints = false
         // Ключ тайтла кнопки пригодится при смене языка (метод changeLanguage).
         titleKey = buttonTitleKey
         // Установим текст для кнопки, который был получен из конструктора.
-        setTitle(buttonTitleKey.localize(), for: .normal)
+        changeLanguage()
         // Установим шрифты для кнопки.
         titleLabel!.font = font
-        // Установим констрейнты высоты и ширины для кнопки.
-        heightAnchor.constraint(equalToConstant: height).isActive = true
-        widthAnchor.constraint(equalToConstant: width).isActive = true
         // Подпишемся на уведомления об изменении языка приложения.
         NotificationCenter.default.addObserver(self, selector: #selector(changeLanguage), name: .changeLanguage, object: nil)
     }

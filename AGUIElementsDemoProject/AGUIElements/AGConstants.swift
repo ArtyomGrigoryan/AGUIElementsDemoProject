@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 struct AGConstants {
     struct Colors {
@@ -50,8 +49,8 @@ struct AGConstants {
         }
     }
     
-    struct Languages {
-        static let russian = "ru"
-        static let english = "en"
+    enum Languages: String {
+        case russian = "ru"
+        case english = "en"
     }
 }
