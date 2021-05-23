@@ -7,16 +7,55 @@
 
 import UIKit
 
-class AGTabBarPopupMenuView: AGView {
+class AGTabBarPopupMenuView: UIView {
     
     // MARK: - Variables
-        
-    private let popupMenuButtonWidth = UIScreen.main.bounds.size.width / 2.3
-    private let popupMenuButtonHeight = UIScreen.main.bounds.size.height / 7.52
+
+    private var delegate: PopupMenuClosing
+    
+    // MARK: - Initializing
+    
+    init(textsArray: [String], iconsArray: [String], viewControllersArray: [UIViewController], delegate: PopupMenuClosing) {
+        // Будем закрывать меню, если нажатие произошло выше фрейма вью.
+        self.delegate = delegate
+        // Сохраним rectangle экрана, чтобы каждый раз не вызывать (супер экономия процессорного времени, лол).
+        let screenSize = UIScreen.main.bounds.size
+        // Вызовем конструктор базового класса - UIView.
+        super.init(frame: CGRect(x: 0, y: screenSize.height, width: screenSize.width, height: screenSize.height))
+        // Должно быть прозрачным, чтобы видеть контент текущего контроллера.
+        backgroundColor = .clear
+        // Создадим саму меню.
+        let menuView = MenuView(textsArray: textsArray, iconsArray: iconsArray, viewControllersArray: viewControllersArray, delegate: delegate)
+        // Добавим её на большое вью.
+        addSubview(menuView)
+        // Нужно закрывать вью, если произошло нажатие по пустому пространству (на часть экрана вне меню).
+        let tapGestureRecongnizer = UITapGestureRecognizer(target: self, action: #selector(closePopupMenu(_ :)))
+        // Добавим обработчик нажатий на вью.
+        addGestureRecognizer(tapGestureRecongnizer)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Functions
+    
+    @objc func closePopupMenu(_ sender: UITapGestureRecognizer) {
+        delegate.closeCurrentMenuView()
+    }
+}
+
+class MenuView: AGView {
 
     // MARK: - Initializing
 
     init(textsArray: [String], iconsArray: [String], viewControllersArray: [UIViewController], delegate: PopupMenuClosing) {
+        // Сохраним rectangle экрана, чтобы каждый раз не вызывать.
+        let screenSize = UIScreen.main.bounds.size
+        // Ширина кнопки в меню.
+        let popupMenuButtonWidth = screenSize.width / 2.3
+        // Высота кнопки в меню.
+        let popupMenuButtonHeight = screenSize.height / 7.52
         // Эта переменная будет использоваться для вычисления 2-ух других переменных ниже.
         let variableForAnotherCalculatings = (CGFloat(textsArray.count) / 2).rounded(.up)
         // 12 - это отступы по вертикали блоков в меню друг от друга.
@@ -24,9 +63,9 @@ class AGTabBarPopupMenuView: AGView {
         // Высота всех блоков по вертикальной линии.
         let allPopupMenuItemHeights = variableForAnotherCalculatings * popupMenuButtonHeight
         // Вычислим итоговую высоту всплывающего меню.
-        let height: CGFloat = allPopupMenuItemHeights + itemVerticalAdditionalSpacesTotalHeight + 40
+        let height = allPopupMenuItemHeights + itemVerticalAdditionalSpacesTotalHeight + 40
         // Вызовем конструктор базового класса - AGView.
-        super.init(width: UIScreen.main.bounds.size.width, height: height, y: UIScreen.main.bounds.size.height)
+        super.init(width: screenSize.width, height: height, y: screenSize.height - height)
         // В вертикальный UIStackView будем помещать горизонтальные UIStackView, которые содержат кнопки.
         let verticalStackView = UIStackView(frame: CGRect(x: 20, y: 20, width: frame.size.width - 40, height: frame.size.height - 40))
         verticalStackView.spacing = 12

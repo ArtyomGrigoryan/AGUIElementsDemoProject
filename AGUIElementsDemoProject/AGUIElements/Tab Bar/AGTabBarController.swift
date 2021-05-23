@@ -25,6 +25,7 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
     private var isTheMenuForCenterButtonCurrentlyDisplayed = false
     private var popupMenuViewForLastButton: AGTabBarPopupMenuView?
     private var popupMenuViewForCenterButton: AGTabBarPopupMenuView?
+    private let screenSize = UIScreen.main.bounds.size
     
     // MARK: - Initializing
 
@@ -61,6 +62,10 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
         delegate = self
         // Установим переданные из SceneDelegate вью-контроллеры в таб-бар.
         setViewControllers(tabBarViewControllersArray, animated: false)
+        // Уберем для таб-бара полупрозрачность.
+        tabBar.isTranslucent = false
+        // Установим цвет для таб-бара.
+        updateColors()
         // Вычислим индекс центральной кнопки на таб-баре.
         middleButtonIndex = tabBarViewControllersArray.count / 2
         // Установим иконки вью-контроллеров в таб-баре.
@@ -79,10 +84,6 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
             // Без этой установки иконка будет уменьшаться в размере при анимации поворота на 45 градусов.
             tabBarItemsImageViewArray[index].contentMode = .center
         }
-        // Установим цвет для таб-бара.
-        updateColors()
-        // Уберем для него полупрозрачность.
-        tabBar.isTranslucent = false
         // Подпишемся на уведомления о смене темы приложения.
         NotificationCenter.default.addObserver(self, selector: #selector(updateColors), name: .updateColors, object: nil)
     }
@@ -172,8 +173,9 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
             rotateAnimation(for: tabBarItemsImageViewArray[tabBarViewControllersArray.count-1], state: isTheMenuForLastButtonCurrentlyDisplayed, angle: .pi / 2)
         }
         // Анимация закрытия меню.
-        UIView.animate(withDuration: 0.3, animations: {
-            currentPopupMenuView.frame = CGRect(x: 0, y: UIScreen.main.bounds.size.height, width: UIScreen.main.bounds.size.width, height: currentPopupMenuView.frame.height)
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            guard let self = self else { return }
+            currentPopupMenuView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: currentPopupMenuView.frame.height)
         }) { _ in
             currentPopupMenuView.removeFromSuperview()
         }
@@ -186,8 +188,8 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
         
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             guard let self = self else { return }
-            popupMenuView.frame = CGRect(x: 0, y: UIScreen.main.bounds.size.height - popupMenuView.frame.height - self.tabBar.frame.height,
-                                         width: UIScreen.main.bounds.size.width, height: popupMenuView.frame.height)
+            popupMenuView.frame = CGRect(x: 0, y: self.screenSize.height - popupMenuView.frame.height - self.tabBar.frame.height,
+                                         width: self.screenSize.width, height: popupMenuView.frame.height)
         })
     }
 
@@ -203,7 +205,7 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
                     alpha = 0
                 }
              
-                UIView.animate(withDuration: 0.25, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     element.alpha = alpha
                 })
                 // Сделаем нажатия на них доступными/недоступными.
@@ -213,7 +215,7 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
     }
     
     private func rotateAnimation(for imageView: UIImageView, state: Bool, angle: CGFloat) {
-        var affineTransform: CGAffineTransform;
+        var affineTransform: CGAffineTransform
         
         switch state {
         case true:
@@ -222,7 +224,7 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
             affineTransform = CGAffineTransform(rotationAngle: 0)
         }
         
-        UIView.animate(withDuration: 0.25, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             imageView.transform = affineTransform
         })
     }
