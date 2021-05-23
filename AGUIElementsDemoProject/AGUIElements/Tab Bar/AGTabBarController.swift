@@ -7,27 +7,46 @@
 
 import UIKit
 
-class AGTabBarController: UITabBarController, UITabBarControllerDelegate {
+protocol PopupMenuClosing {
+    func closeCurrentMenuView()
+}
+
+class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupMenuClosing {
     
     // MARK: - Variables
     
     var tabBarIconsArray: [String]
     var tabBarViewControllersArray: [UIViewController]
    
+    private var lastButtonIndex: Int?
     private var middleButtonIndex: Int!
-    private var isTheMenuCurrentlyDisplayed = false
-    private var popupMenuView: AGTabBarPopupMenuView
     private var tabBarItemsImageViewArray = [UIImageView]()
-    private let screenSize = UIScreen.main.bounds.size
+    private var isTheMenuForLastButtonCurrentlyDisplayed = false
+    private var isTheMenuForCenterButtonCurrentlyDisplayed = false
+    private var popupMenuViewForLastButton: AGTabBarPopupMenuView?
+    private var popupMenuViewForCenterButton: AGTabBarPopupMenuView?
     
     // MARK: - Initializing
 
-    init(tabBarIconsArray: [String], tabBarViewControllersArray: [UIViewController], popupMenuIconsArray: [String], popupMenuTextsArray: [String], popupMenuViewControllersArray: [UIViewController]) {
+    init(tabBarIconsArray: [String], tabBarViewControllersArray: [UIViewController], popupMenuIconsArray: [String], popupMenuTextsArray: [String], popupMenuViewControllersArray: [UIViewController], rightPopupMenuIconsArray: [String] = [], rightPopupMenuTextsArray: [String] = [], rightPopupMenuViewControllersArray: [UIViewController] = []) {
         self.tabBarIconsArray = tabBarIconsArray
         self.tabBarViewControllersArray = tabBarViewControllersArray
-        self.popupMenuView = AGTabBarPopupMenuView(textsArray: popupMenuTextsArray, iconsArray: popupMenuIconsArray,
-                                                   viewControllersArray: popupMenuViewControllersArray)
         super.init(nibName: nil, bundle: nil)
+        // Проинициализируем popupView тут, так как раньше не будет доступен self для делегата.
+        initPopupMenuViews(popupMenuIconsArray: popupMenuIconsArray, popupMenuTextsArray: popupMenuTextsArray, popupMenuViewControllersArray: popupMenuViewControllersArray, rightPopupMenuIconsArray: rightPopupMenuIconsArray, rightPopupMenuTextsArray: rightPopupMenuTextsArray, rightPopupMenuViewControllersArray: rightPopupMenuViewControllersArray)
+    }
+    
+    private func initPopupMenuViews(popupMenuIconsArray: [String], popupMenuTextsArray: [String], popupMenuViewControllersArray: [UIViewController], rightPopupMenuIconsArray: [String] = [], rightPopupMenuTextsArray: [String] = [], rightPopupMenuViewControllersArray: [UIViewController] = []) {
+        self.popupMenuViewForCenterButton = AGTabBarPopupMenuView(textsArray: popupMenuTextsArray,
+                                                                  iconsArray: popupMenuIconsArray,
+                                                                  viewControllersArray: popupMenuViewControllersArray,
+                                                                  delegate: self)
+        if !rightPopupMenuViewControllersArray.isEmpty {
+            self.popupMenuViewForLastButton = AGTabBarPopupMenuView(textsArray: rightPopupMenuTextsArray,
+                                                                    iconsArray: rightPopupMenuIconsArray,
+                                                                    viewControllersArray: rightPopupMenuViewControllersArray,
+                                                                    delegate: self)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -73,57 +92,111 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         // Получим индекс текущей нажатой кнопки на таб-баре.
         let touchedVCIndex = tabBarController.viewControllers!.firstIndex(of: viewController)!
-        // Если индекс текущей нажатой кнопки - это срединная кнопка,
+        // Если индекс текущей нажатой кнопки - это срединная кнопка.
         if touchedVCIndex == middleButtonIndex {
-            // то получим вьюшку вью контроллера, который принадлежит срединной кнопке,
+            // Если правое меню сейчас отображается на экране,
+            if isTheMenuForLastButtonCurrentlyDisplayed {
+                // то спрячем его.
+                closeCurrentMenuView()
+            }
+            // Получим вьюшку вью контроллера, который принадлежит срединной кнопке,
             var currentView = tabBarController.selectedViewController!.view!
             // и если меню ранее не было вызвано,
-            if !isTheMenuCurrentlyDisplayed {
+            if !isTheMenuForCenterButtonCurrentlyDisplayed {
                 // то вызовем вью-меню, куда будем помещать кнопки.
-                showPopupMenuView(superView: &currentView)
+                showPopupMenuView(superView: &currentView, popupMenuView: popupMenuViewForCenterButton!)
+                // Изменим состояние переключателя, чтобы при следующем нажатии показать соответствующую анимацию.
+                isTheMenuForCenterButtonCurrentlyDisplayed.toggle()
+                // Запустим анимацию поворота иконки на 45 градусов.
+                rotateAnimation(for: tabBarItemsImageViewArray[middleButtonIndex], state: isTheMenuForCenterButtonCurrentlyDisplayed, angle: .pi / 4)
+                // Запустим анимацию изменения прозрачности остальных иконок на таб-баре.
+                changeTabBarItemsTransparency()
             // А если меню уже отображено на экране,
             } else {
                 // то тогда спрячем меню.
-                hidePopupMenuView()
+                closeCurrentMenuView()
             }
-            // Изменим состояние переключателя, чтобы при следующем нажатии показать соответствующую анимацию.
-            isTheMenuCurrentlyDisplayed.toggle()
-            // Запустим анимацию поворота иконки на 45 градусов.
-            rotateAnimation(for: tabBarItemsImageViewArray[middleButtonIndex])
-            // Запустим анимацию изменения прозрачности остальных иконок на таб-баре.
-            changeTabBarItemsTransparency()
             // Укажем, что не будем переключаться на этот вью-контроллер.
             return false
+        // Если индекс текущей нажатой кнопки - это последняя кнопка,
+        } else if ((touchedVCIndex == (tabBarViewControllersArray.count - 1)) && (popupMenuViewForLastButton != nil)) {
+            // то получим вьюшку вью контроллера, который принадлежит последней кнопке,
+            var currentView = tabBarController.selectedViewController!.view!
+            // и если меню ранее не было вызвано,
+            if !isTheMenuForLastButtonCurrentlyDisplayed {
+                // то вызовем вью-меню, куда будем помещать кнопки.
+                showPopupMenuView(superView: &currentView, popupMenuView: popupMenuViewForLastButton!)
+                // Изменим состояние переключателя, чтобы при следующем нажатии показать соответствующую анимацию.
+                isTheMenuForLastButtonCurrentlyDisplayed.toggle()
+                // Повернём кнопку на 90 градусов.
+                rotateAnimation(for: tabBarItemsImageViewArray[tabBarViewControllersArray.count-1], state: isTheMenuForLastButtonCurrentlyDisplayed, angle: .pi / 2)
+            // А если меню уже отображено на экране,
+            } else {
+                // то тогда спрячем меню.
+                closeCurrentMenuView()
+            }
+            // Укажем, что не будем переключаться на этот вью-контроллер.
+            return false
+        // Если индекс текущей нажатой кнопки - это какая-то другая кнопка,
+        } else {
+            // и если правое меню сейчас отображается на экране,
+            if isTheMenuForLastButtonCurrentlyDisplayed {
+                // то спрячем его.
+                closeCurrentMenuView()
+            }
+            // Отобразим выбранный вью-контроллер на экране.
+            return true
         }
-        // иначе - просто отобразим нужный вью-контроллер.
-        return true
+    }
+    
+    func closeCurrentMenuView() {
+        // В эту переменную запишем текущую отображаемую на экране меню.
+        var currentPopupMenuView: AGTabBarPopupMenuView
+        // Если сейчас на экране отображается центральное меню,
+        if isTheMenuForCenterButtonCurrentlyDisplayed {
+            // то в анимации закрывать будем его.
+            currentPopupMenuView = popupMenuViewForCenterButton!
+            // Изменим состояние переключателя, чтобы при следующем нажатии показать соответствующую анимацию.
+            isTheMenuForCenterButtonCurrentlyDisplayed.toggle()
+            // Запустим анимацию поворота иконки на 45 градусов.
+            rotateAnimation(for: tabBarItemsImageViewArray[middleButtonIndex], state: isTheMenuForCenterButtonCurrentlyDisplayed, angle: .pi / 4)
+            // Запустим анимацию изменения прозрачности остальных иконок на таб-баре.
+            changeTabBarItemsTransparency()
+        // А если правое меню,
+        } else {
+            // то в анимации закрывать будем его.
+            currentPopupMenuView = popupMenuViewForLastButton!
+            // Изменим состояние переключателя, чтобы при следующем нажатии показать соответствующую анимацию.
+            isTheMenuForLastButtonCurrentlyDisplayed.toggle()
+            // Запустим анимацию поворота иконки на 90 градусов.
+            rotateAnimation(for: tabBarItemsImageViewArray[tabBarViewControllersArray.count-1], state: isTheMenuForLastButtonCurrentlyDisplayed, angle: .pi / 2)
+        }
+        // Анимация закрытия меню.
+        UIView.animate(withDuration: 0.3, animations: {
+            currentPopupMenuView.frame = CGRect(x: 0, y: UIScreen.main.bounds.size.height, width: UIScreen.main.bounds.size.width, height: currentPopupMenuView.frame.height)
+        }) { _ in
+            currentPopupMenuView.removeFromSuperview()
+        }
     }
     
     // MARK: - Private functions
     
-    private func showPopupMenuView(superView: inout UIView) {
+    private func showPopupMenuView(superView: inout UIView, popupMenuView: AGTabBarPopupMenuView) {
         superView.addSubview(popupMenuView)
         
-        UIView.animate(withDuration: 0.3, animations: {
-            self.popupMenuView.frame = CGRect(x: 0, y: self.screenSize.height - self.popupMenuView.frame.height - self.tabBar.frame.height,
-                                              width: self.screenSize.width, height: self.popupMenuView.frame.height)
+        UIView.animate(withDuration: 0.3, animations: { [weak self] in
+            guard let self = self else { return }
+            popupMenuView.frame = CGRect(x: 0, y: UIScreen.main.bounds.size.height - popupMenuView.frame.height - self.tabBar.frame.height,
+                                         width: UIScreen.main.bounds.size.width, height: popupMenuView.frame.height)
         })
-    }
-    
-    private func hidePopupMenuView() {
-        UIView.animate(withDuration: 0.3, animations: {
-            self.popupMenuView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: self.popupMenuView.frame.height)
-        }) { _ in
-            self.popupMenuView.removeFromSuperview()
-        }
     }
 
     private func changeTabBarItemsTransparency() {
         for (index, element) in tabBarItemsImageViewArray.enumerated() {
             if index != middleButtonIndex {
-                var alpha: CGFloat = 0;
+                var alpha: CGFloat = 0
                 
-                switch isTheMenuCurrentlyDisplayed {
+                switch isTheMenuForCenterButtonCurrentlyDisplayed {
                 case false:
                     alpha = 1
                 case true:
@@ -139,12 +212,12 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
-    private func rotateAnimation(for imageView: UIImageView) {
+    private func rotateAnimation(for imageView: UIImageView, state: Bool, angle: CGFloat) {
         var affineTransform: CGAffineTransform;
         
-        switch isTheMenuCurrentlyDisplayed {
+        switch state {
         case true:
-            affineTransform = CGAffineTransform(rotationAngle: .pi / 4)
+            affineTransform = CGAffineTransform(rotationAngle: angle)
         case false:
             affineTransform = CGAffineTransform(rotationAngle: 0)
         }

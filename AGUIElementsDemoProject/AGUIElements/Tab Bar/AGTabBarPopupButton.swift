@@ -11,13 +11,16 @@ class AGTabBarPopupButton: AGButton {
     
     // MARK: - Variables
     
+    private let delegate: PopupMenuClosing
     private let viewController: UIViewController
     
     // MARK: - Initializing
     
-    init(width: CGFloat, height: CGFloat, buttonTitleKey: String, icon: String, viewController: UIViewController, font: UIFont? = AGFontsManager.littleSF) {
+    init(width: CGFloat, height: CGFloat, buttonTitleKey: String, icon: String, viewController: UIViewController, delegate: PopupMenuClosing, font: UIFont? = AGFontsManager.littleSF) {
         // Этот вью-контроллер будет запускаться при нажатии на кнопку.
         self.viewController = viewController
+        // Будем закрывать меню при нажатии на кнопку.
+        self.delegate = delegate
         // Вызовем конструктор родительского класса - AGButton.
         super.init(buttonTitleKey: buttonTitleKey, font: font, width: width, height: height)
         // Установим цвета кнопки.
@@ -56,6 +59,7 @@ class AGTabBarPopupButton: AGButton {
     
     /* При нажатии на кнопку отобразим соответствующий кнопке вью-контроллер */
     @objc func buttonAction(sender: UIButton!) {
+        delegate.closeCurrentMenuView()
         window!.rootViewController!.present(viewController, animated: true)
     }
 

@@ -197,10 +197,8 @@ class ViewController: UIViewController {
     
     // Эту функцию можно спокойно копировать-вставить из проекта в проект.
     @objc private func kbWillShow(notification: Notification) {
-        guard
-            let userInfo = notification.userInfo,
-            let kbFrameSize = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-        else { return }
+        // Получим размеры клавиатуры.
+        guard let kbFrameSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         // Тут будем хранить новые координаты для scrollView.
         let contentInsets: UIEdgeInsets
         // Координата верхней части клавиатуры.

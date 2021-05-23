@@ -10,13 +10,13 @@ import UIKit
 class AGTabBarPopupMenuView: AGView {
     
     // MARK: - Variables
-    
+        
     private let popupMenuButtonWidth = UIScreen.main.bounds.size.width / 2.3
     private let popupMenuButtonHeight = UIScreen.main.bounds.size.height / 7.52
 
     // MARK: - Initializing
 
-    init(textsArray: [String], iconsArray: [String], viewControllersArray: [UIViewController]) {
+    init(textsArray: [String], iconsArray: [String], viewControllersArray: [UIViewController], delegate: PopupMenuClosing) {
         // Эта переменная будет использоваться для вычисления 2-ух других переменных ниже.
         let variableForAnotherCalculatings = (CGFloat(textsArray.count) / 2).rounded(.up)
         // 12 - это отступы по вертикали блоков в меню друг от друга.
@@ -46,10 +46,11 @@ class AGTabBarPopupMenuView: AGView {
                 // то добавим сразу 2 кнопки.
                 let b1 = AGTabBarPopupButton(width: popupMenuButtonWidth, height: popupMenuButtonHeight,
                                              buttonTitleKey: textsArray[i], icon: iconsArray[i],
-                                             viewController: viewControllersArray[i])
+                                             viewController: viewControllersArray[i], delegate: delegate)
                 let b2 = AGTabBarPopupButton(width: popupMenuButtonWidth, height: popupMenuButtonHeight,
                                              buttonTitleKey: textsArray[i+1], icon: iconsArray[i+1],
-                                             viewController: viewControllersArray[i+1])
+                                             viewController: viewControllersArray[i+1], delegate: delegate)
+                // Добавим кнопки в массив, чтобы затем добавить их в AGButtonsStackView.
                 buttonsArray.append(b1)
                 buttonsArray.append(b2)
             // А если осталась всего-лишь 1 недобавленная кнопка,
@@ -57,7 +58,8 @@ class AGTabBarPopupMenuView: AGView {
                 // то создадим только 1 объект кнопки с шириной во весь verticalStackView.
                 let b1 = AGTabBarPopupButton(width: verticalStackView.frame.size.width, height: popupMenuButtonHeight,
                                              buttonTitleKey: textsArray[i], icon: iconsArray[i],
-                                             viewController: viewControllersArray[i])
+                                             viewController: viewControllersArray[i], delegate: delegate)
+                // Добавим кнопку в массив, чтобы затем добавить её в AGButtonsStackView.
                 buttonsArray.append(b1)
             }
             // Добавим непустой массив кнопок в UIStackView.
