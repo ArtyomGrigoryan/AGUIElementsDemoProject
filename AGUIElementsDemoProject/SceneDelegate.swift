@@ -22,22 +22,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             AGLanguageManager.currentLanguage = AGConstants.Languages.english
         }
         // Контроллеры, которые будут в таб-баре.
-        let tabBarControllersArray = [ViewController(), CenterViewController(), RightViewController()]
+        let tabBarControllersArray = [ViewController(), SecondMenuViewController(),
+                                      CenterViewController(), FourthMenuViewController(), RightViewController()]
         // Массив иконок, которые будут в таб-баре.
-        let tabBarIconsArray = ["graphIcon", "expandMenuIcon", "menuOtherIcon"]
+        let tabBarIconsArray = ["graphIcon", "msrmIcon", "expandMenuIcon", "pillsIcon", "menuOtherIcon"]
         // Контроллеры, которые будут запускаться при нажатии на кнопку в popup кнопке-меню таб-бара (для центральной кнопки в таб-баре).
         let menuVCArray = [FirstMenuViewController(), SecondMenuViewController(),
                            ThirdMenuViewController(), FourthMenuViewController(), FifthMenuViewController()]
-        // Массив иконок, которые будут в popup кнопке-меню таб-бара (для центральной кнопки в таб-баре)..
+        // Массив иконок, которые будут в popup кнопке-меню таб-бара (для центральной кнопки в таб-баре).
         let popupMenuIconsArray = ["settingsMenuIcon", "pillsIcon", "msrmIcon", "graphIcon", "testIcon"]
-        // Массив подписей к иконкам, которые будут в popup кнопке-меню таб-бара (для центральной кнопки в таб-баре)..
-        let popupMenuTextsArray = ["Main", "Email", "Phone", "Password", "Delete"]
+        // Массив подписей к иконкам, которые будут в popup кнопке-меню таб-бара (для центральной кнопки в таб-баре).
+        let popupMenuTextsArray = ["Main", "Email", "Backup", "Password", "Delete"]
         // Контроллеры, которые будут запускаться при нажатии на кнопку в popup кнопке-меню таб-бара (для правой кнопки в таб-баре).
         let rightMenuVCArray = [FirstMenuViewController(), SecondMenuViewController(), ThirdMenuViewController(), FourthMenuViewController()]
-        // Массив иконок, которые будут в popup кнопке-меню таб-бара (для правой кнопки в таб-баре)..
+        // Массив иконок, которые будут в popup кнопке-меню таб-бара (для правой кнопки в таб-баре).
         let rightPopupMenuIconsArray = ["settingsMenuIcon", "pillsIcon", "msrmIcon", "graphIcon"]
-        // Массив подписей к иконкам, которые будут в popup кнопке-меню таб-бара (для правой кнопки в таб-баре)..
-        let rightPopupMenuTextsArray = ["Main", "Email", "Phone", "Password"]
+        // Массив подписей к иконкам, которые будут в popup кнопке-меню таб-бара (для правой кнопки в таб-баре).
+        let rightPopupMenuTextsArray = ["Main", "Email", "Backup", "Password"]
         // Проинициализируем AGTabBarController ранее созданными контроллерами, иконками, и подписями к иконкам.
         let tabBarController = AGTabBarController(tabBarIconsArray: tabBarIconsArray,
                                                   tabBarViewControllersArray: tabBarControllersArray,

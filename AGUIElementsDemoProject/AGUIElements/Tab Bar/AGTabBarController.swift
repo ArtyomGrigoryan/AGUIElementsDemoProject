@@ -20,6 +20,7 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
    
     private var lastButtonIndex: Int?
     private var middleButtonIndex: Int!
+    private var currentSelectedTabBarItem: Int!
     private var tabBarItemsImageViewArray = [UIImageView]()
     private var isTheMenuForLastButtonCurrentlyDisplayed = false
     private var isTheMenuForCenterButtonCurrentlyDisplayed = false
@@ -30,13 +31,14 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
     // MARK: - Initializing
 
     init(tabBarIconsArray: [String], tabBarViewControllersArray: [UIViewController], popupMenuIconsArray: [String], popupMenuTextsArray: [String], popupMenuViewControllersArray: [UIViewController], rightPopupMenuIconsArray: [String] = [], rightPopupMenuTextsArray: [String] = [], rightPopupMenuViewControllersArray: [UIViewController] = []) {
+        self.currentSelectedTabBarItem = 0
         self.tabBarIconsArray = tabBarIconsArray
         self.tabBarViewControllersArray = tabBarViewControllersArray
         super.init(nibName: nil, bundle: nil)
         // Проинициализируем popupView тут, так как раньше не будет доступен self для делегата.
         initPopupMenuViews(popupMenuIconsArray: popupMenuIconsArray, popupMenuTextsArray: popupMenuTextsArray, popupMenuViewControllersArray: popupMenuViewControllersArray, rightPopupMenuIconsArray: rightPopupMenuIconsArray, rightPopupMenuTextsArray: rightPopupMenuTextsArray, rightPopupMenuViewControllersArray: rightPopupMenuViewControllersArray)
     }
-    
+
     private func initPopupMenuViews(popupMenuIconsArray: [String], popupMenuTextsArray: [String], popupMenuViewControllersArray: [UIViewController], rightPopupMenuIconsArray: [String] = [], rightPopupMenuTextsArray: [String] = [], rightPopupMenuViewControllersArray: [UIViewController] = []) {
         self.popupMenuViewForCenterButton = AGTabBarPopupMenuView(textsArray: popupMenuTextsArray,
                                                                   iconsArray: popupMenuIconsArray,
@@ -102,6 +104,7 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
             }
             // Получим вьюшку вью контроллера, который принадлежит срединной кнопке,
             var currentView = tabBarController.selectedViewController!.view!
+            //tabBarController.selectedViewController!.tabBarItem.isEnabled = true
             // и если меню ранее не было вызвано,
             if !isTheMenuForCenterButtonCurrentlyDisplayed {
                 // то вызовем вью-меню, куда будем помещать кнопки.
@@ -119,7 +122,7 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
             }
             // Укажем, что не будем переключаться на этот вью-контроллер.
             return false
-        // Если индекс текущей нажатой кнопки - это последняя кнопка,
+        // Если индекс текущей нажатой кнопки - это последняя кнопка (и для неё нужно меню),
         } else if ((touchedVCIndex == (tabBarViewControllersArray.count - 1)) && (popupMenuViewForLastButton != nil)) {
             // то получим вьюшку вью контроллера, который принадлежит последней кнопке,
             var currentView = tabBarController.selectedViewController!.view!
@@ -145,6 +148,8 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
                 // то спрячем его.
                 closeCurrentMenuView()
             }
+            // Запомним индекс выбранного айтема, чтобы при повторном его появлении (alpha = 1) он был закрашен синим.
+            currentSelectedTabBarItem = touchedVCIndex
             // Отобразим выбранный вью-контроллер на экране.
             return true
         }
@@ -175,17 +180,16 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
         // Анимация закрытия меню.
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             guard let self = self else { return }
-            currentPopupMenuView.frame = CGRect(x: 0, y: self.screenSize.height, width: self.screenSize.width, height: currentPopupMenuView.frame.height)
-        }) { _ in
-            currentPopupMenuView.removeFromSuperview()
-        }
+            currentPopupMenuView.frame = CGRect(x: 0, y: self.screenSize.height,
+                                                width: self.screenSize.width, height: currentPopupMenuView.frame.height)
+        })
     }
     
     // MARK: - Private functions
     
     private func showPopupMenuView(superView: inout UIView, popupMenuView: AGTabBarPopupMenuView) {
         superView.addSubview(popupMenuView)
-        
+
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             guard let self = self else { return }
             popupMenuView.frame = CGRect(x: 0, y: self.screenSize.height - popupMenuView.frame.height - self.tabBar.frame.height,
@@ -208,8 +212,11 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
                 UIView.animate(withDuration: 0.3, animations: {
                     element.alpha = alpha
                 })
-                // Сделаем нажатия на них доступными/недоступными.
-                tabBar.items?[index].isEnabled.toggle()
+                // Это нужно, чтобы после повторного показа (alpha = 1) текущего выбранного айтема он был селектнут (закрашен синим).
+                if index != currentSelectedTabBarItem {
+                    // Сделаем нажатия на них доступными/недоступными.
+                    tabBar.items![index].isEnabled.toggle()
+                }
             }
         }
     }

@@ -159,7 +159,7 @@ class ViewController: UIViewController {
         // Можно указать, что кнопка должна содержать картинку!
         withImageActionButton = AGActionButton(actionButtonType: .withImage("paperClip.png"), titleKey: "AddImage")
 
-        // EMMAButtonsStackView - кнопки "Мужчина" "Женщина" уже помещались в этот стеквью, но в данном случае используется вертикальная группировка
+        // EMMAButtonsStackView - кнопки "Мужчина" "Женщина" уже помещались в этот стеквью, но в данном случае используется вертикальная группировка.
         let actionButtonsArray: [AGButton] = [submitActionButton, cancelActionButton, deleteActionButton, transparentActionButton, clearActionButton, withImageActionButton]
         buttonsStackView2 = AGButtonsStackView(buttonsArray: actionButtonsArray, axis: .vertical, spacing: 12)
         scrollView.addSubview(buttonsStackView2)
