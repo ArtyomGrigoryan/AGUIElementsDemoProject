@@ -19,6 +19,9 @@ class ViewController: UIViewController {
     private var textField9: AGValuePicker!
     private var textField10: AGTextField!
     private var textField11: AGTextField!
+    private var textField12: AGTextField!
+    private var textField13: AGTextField!
+    private var textField14: AGTextField!
 
     private var halfPicker: AGHalfFieldPicker!
     private var halfPicker2: AGHalfFieldPicker!
@@ -69,15 +72,15 @@ class ViewController: UIViewController {
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
+        
         drawInterface()
         changeLanguage()
         updateColors()
     }
     
     private func drawInterface() {
-        // Текстовое поле, заточеное под ввод почты. Содержит почтовый валидатор.
-        textField1 = AGTextField(isDetached: true, textFieldText: "", placeholderTextTranslationKey: "Email", fieldType: .emailField)
+        // Обычное текстовое поле.
+        textField1 = AGTextField(isDetached: true, textFieldText: "", placeholderTextTranslationKey: "FirstName", keyboardType: .default)
         textField1.delegate = self
         scrollView.addSubview(textField1)
         
@@ -85,11 +88,17 @@ class ViewController: UIViewController {
         textField10 = AGTextField(isDetached: true, textFieldText: "", placeholderTextTranslationKey: "Phone", keyboardType: .numberPad, fieldType: .phoneField)
         textField10.delegate = self
         scrollView.addSubview(textField10)
-
-        // Текстовое поле, заточеное под ввод пароля.
-        textField11 = AGTextField(isDetached: true, textFieldText: "", placeholderTextTranslationKey: "Password", keyboardType: .default, fieldType: .passwordField(withRegex: .defaultRegex))
+        
+        // Текстовое поле, заточеное под ввод почты. Содержит почтовый валидатор.
+        textField11 = AGTextField(isDetached: true, textFieldText: "", placeholderTextTranslationKey: "Email", fieldType: .emailField)
         textField11.delegate = self
         scrollView.addSubview(textField11)
+        
+        // Текстовое поле, заточеное под ввод пароля.
+        textField13 = AGTextField(isDetached: true, textFieldText: "", placeholderTextTranslationKey: "Password",
+                                  keyboardType: .default, fieldType: .passwordField(withRegex: .defaultRegex))
+        textField13.delegate = self
+        scrollView.addSubview(textField13)
 
         // Текстовое поле, содержащее пикер значений. Ниже - массивы для первой и второй части. Опционально - отправить в конструктор разделитель.
         let pickerFirstDataArray = ["FirstValue", "SecondValue", "ThirdValue", "FourthValue", "FifthValue", "SixthValue"]
@@ -114,6 +123,11 @@ class ViewController: UIViewController {
         let tabButtonsArray: [AGButton] = [letfButton, rightButton]
         buttonsStackView = AGButtonsStackView(buttonsArray: tabButtonsArray, axis: .horizontal, spacing: 12)
         scrollView.addSubview(buttonsStackView)
+        
+        // Обычное текстовое поле.
+        textField14 = AGTextField(isDetached: true, textFieldText: "", placeholderTextTranslationKey: "FirstName", keyboardType: .default)
+        textField14.delegate = self
+        scrollView.addSubview(textField14)
         
         // Обычное текстовое поле.
         textField4 = AGTextField(isDetached: false, textFieldText: "", placeholderTextTranslationKey: "FirstName", keyboardType: .default)
@@ -146,6 +160,11 @@ class ViewController: UIViewController {
         doctorNametextView = AGTextView(textViewText: "", placeholderTextTranslationKey: "TextViewWithSymbolsCounter", maxCountOfCharacters: 120)
         doctorNametextView.delegate = self
         scrollView.addSubview(doctorNametextView)
+        
+        // Обычное текстовое поле.
+        textField12 = AGTextField(isDetached: true, textFieldText: "", placeholderTextTranslationKey: "FirstName", keyboardType: .default)
+        textField12.delegate = self
+        scrollView.addSubview(textField12)
 
         // Ниже - кнопки. В конструктор передается enum, и исходя от него решается какого типа кнопку нужно отобразить.
         submitActionButton = AGActionButton(actionButtonType: .submit, titleKey: "Settings")
@@ -202,7 +221,7 @@ class ViewController: UIViewController {
         // Тут будем хранить новые координаты для scrollView.
         let contentInsets: UIEdgeInsets
         // Координата верхней части клавиатуры.
-        let topOfKeyboard = scrollView.frame.size.height - kbFrameSize.size.height
+        let topOfKeyboard = scrollView.frame.size.height - kbFrameSize.height
         // Переменная, в которой будет храниться координата нижней части выбранного объекта.
         var bottomOfTextField: CGFloat = 0
         // Если есть таб-бар, то нужно учитывать его высоту.
@@ -221,23 +240,20 @@ class ViewController: UIViewController {
         } else if let activeTextView = activeTextView {
             bottomOfTextField = activeTextView.convert(activeTextView.bounds, to: view).maxY + 15
             // то scrollView нужно поднять повыше (+15), чтобы пользователь увидел счетчик введенных символов в этот textView.
-            contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbFrameSize.height + 15 - additionalOffsetFromTabBar, right: 0)
+            contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbFrameSize.height - additionalOffsetFromTabBar + 15, right: 0)
         } else {
-            contentInsets = UIEdgeInsets.zero
+            contentInsets = .zero
         }
         // Таким образом, предотвращается поднятие scrollView когда это не нужно.
         if bottomOfTextField > topOfKeyboard {
             // Поднимем scrollView.
             scrollView.contentInset = contentInsets
-            // Нужно учитывать безопасную зону на X-айфонах.
-            scrollView.contentInsetAdjustmentBehavior = .never
         }
     }
     
     // И эту функцию тоже, разумеется.
     @objc private func kbWillHide(notification: Notification) {
-        scrollView.contentInset = UIEdgeInsets.zero
-        scrollView.contentInsetAdjustmentBehavior = .always
+        scrollView.contentInset = .zero
     }
     
     private func setupConstraints() {
@@ -248,12 +264,16 @@ class ViewController: UIViewController {
         textField10.topAnchor.constraint(equalTo: textField1.bottomAnchor, constant: 12).isActive = true
         textField10.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
         textField10.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
-        
+       
         textField11.topAnchor.constraint(equalTo: textField10.bottomAnchor, constant: 12).isActive = true
         textField11.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
         textField11.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
         
-        textField2.topAnchor.constraint(equalTo: textField11.bottomAnchor, constant: 12).isActive = true
+        textField13.topAnchor.constraint(equalTo: textField11.bottomAnchor, constant: 12).isActive = true
+        textField13.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
+        textField13.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
+        
+        textField2.topAnchor.constraint(equalTo: textField13.bottomAnchor, constant: 12).isActive = true
         textField2.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
         textField2.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
         
@@ -261,10 +281,14 @@ class ViewController: UIViewController {
         textField3.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
         textField3.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
         
-        buttonsStackView.topAnchor.constraint(equalTo: textField3.bottomAnchor, constant: 12).isActive = true
+        textField14.topAnchor.constraint(equalTo: textField3.bottomAnchor, constant: 12).isActive = true
+        textField14.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
+        textField14.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
+        
+        buttonsStackView.topAnchor.constraint(equalTo: textField14.bottomAnchor, constant: 12).isActive = true
         buttonsStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
         buttonsStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
-        
+   
         blockView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: 12).isActive = true
         blockView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
         blockView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
@@ -281,7 +305,11 @@ class ViewController: UIViewController {
         doctorNametextView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
         doctorNametextView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
         
-        buttonsStackView2.topAnchor.constraint(equalTo: doctorNametextView.bottomAnchor, constant: 12).isActive = true
+        textField12.topAnchor.constraint(equalTo: doctorNametextView.bottomAnchor, constant: 12).isActive = true
+        textField12.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
+        textField12.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -16).isActive = true
+        
+        buttonsStackView2.topAnchor.constraint(equalTo: textField12.bottomAnchor, constant: 12).isActive = true
         buttonsStackView2.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 16).isActive = true
     }
 }

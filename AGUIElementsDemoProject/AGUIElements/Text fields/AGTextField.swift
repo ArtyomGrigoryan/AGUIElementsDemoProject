@@ -197,7 +197,7 @@ class AGTextField: AGView {
             NSLayoutConstraint.deactivate([textFieldActiveStateTopConstraint, textFieldActiveStateBottomConstraint])
             NSLayoutConstraint.activate([textFieldNotActiveStateTopConstraint, textFieldNotActiveStateBottomConstraint])
             // Изменим данные текстового поля.
-            changeTextFieldData(hintLabelAlpha: 0, placeholderText: placeholderText)
+            changeTextFieldData(hintLabelAlpha: 0, placeholderText: placeholderTextTranslationKey.localize())
         // Если пользователь нажал на текстовое поле,
         case .active:
             // то установим констрейнты для текстового поля к вью-контейнеру, если пользователь нажал на текстовое поле.
