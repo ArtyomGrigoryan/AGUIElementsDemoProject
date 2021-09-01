@@ -15,15 +15,19 @@ class AGButton: UIButton {
 
     // MARK: - Initializing
 
-    init(buttonTitleKey: String!, font: UIFont!, width: CGFloat, height: CGFloat) {
+    init(buttonTitleKey: String!, font: UIFont!, width: CGFloat, height: CGFloat, icon: String? = nil) {
         // Вызовем конструктор базового класса - UIButton.
         super.init(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        // Установим иконку для кнопки.
+        if let icon = icon {
+            setImage(UIImage(named: icon), for: .normal)
+        }
         // Ключ тайтла кнопки пригодится при смене языка (метод changeLanguage).
         titleKey = buttonTitleKey
-        // Установим текст для кнопки, который был получен из конструктора.
-        changeLanguage()
         // Установим шрифты для кнопки.
         titleLabel!.font = font
+        // Установим текст для кнопки, который был получен из конструктора.
+        setTitle(titleKey.localize(), for: .normal)
         // Подпишемся на уведомления об изменении языка приложения.
         NotificationCenter.default.addObserver(self, selector: #selector(changeLanguage), name: .changeLanguage, object: nil)
     }

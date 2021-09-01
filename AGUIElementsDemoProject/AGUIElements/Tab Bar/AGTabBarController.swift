@@ -185,6 +185,13 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
         })
     }
     
+    // MARK: - Notification functions
+
+    /* Метод обновит цвета согласно выбранной пользователем темы */
+    @objc func updateColors() {
+        tabBar.barTintColor = AGThemeManager.elementsBackgroundColor
+    }
+    
     // MARK: - Private functions
     
     private func showPopupMenuView(superView: inout UIView, popupMenuView: AGTabBarPopupMenuView) {
@@ -234,10 +241,5 @@ class AGTabBarController: UITabBarController, UITabBarControllerDelegate, PopupM
         UIView.animate(withDuration: 0.3, animations: {
             imageView.transform = affineTransform
         })
-    }
-    
-    /* Метод обновит цвета согласно выбранной пользователем темы */
-    @objc func updateColors() {
-        tabBar.barTintColor = AGThemeManager.elementsBackgroundColor
     }
 }

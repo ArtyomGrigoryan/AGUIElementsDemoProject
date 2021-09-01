@@ -22,29 +22,17 @@ class AGTabBarPopupButton: AGButton {
         // Будем закрывать меню при нажатии на кнопку.
         self.delegate = delegate
         // Вызовем конструктор родительского класса - AGButton.
-        super.init(buttonTitleKey: buttonTitleKey, font: font, width: width, height: height)
-        // Установим цвета кнопки.
-        updateColors()
+        super.init(buttonTitleKey: buttonTitleKey, font: font, width: width, height: height, icon: icon)
         // Округлим углы у кнопки.
         layer.cornerRadius = 8
-        // Установим изображение для кнопки.
-        setImage(UIImage(named: icon), for: .normal)
-        // Для простоты оцентровки текста и иконки по центру с вертикальным расположением оных друг к другу, сделаем Alignment по левому краю.
-        contentHorizontalAlignment = .left
         // Слова будут переноситься на следующую строку.
         titleLabel!.lineBreakMode = .byWordWrapping
         // Текст у кнопки будет по центру фрейма.
         titleLabel!.textAlignment = .center
-        // Сохраним в переменные значения, которые затем будут использоваться в оцентрове текста и иконки.
-        let imageViewFrameWidth = imageView!.frame.size.width
-        let titleLabelFrameWidth = titleLabel!.frame.size.width
-        let btnCenter = (width / 2) - (imageViewFrameWidth / 2)
-        let leftOffsetForTitleLabel = (width - titleLabelFrameWidth) / 2
-        // Так как по умолчанию текст имеет отступ в 26 (из-за иконки, у которой ширина равна 26), то нужно вычесть эти самые 26.
-        let resultLeftOffsetForTitleLabel = -imageViewFrameWidth + leftOffsetForTitleLabel
-        // Применим все ранее вычисленные отступы для кнопки.
-        imageEdgeInsets = UIEdgeInsets(top: -20, left: btnCenter, bottom: 0, right: 0)
-        titleEdgeInsets = UIEdgeInsets(top: 30, left: resultLeftOffsetForTitleLabel, bottom: 0, right: 0)
+        // Оцентрируем иконку и текст кнопки.
+        centerVertically()
+        // Установим цвета кнопки.
+        updateColors()
         // Зарегистрируем для кнопки обработчик событий.
         addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         // Подпишемся на уведомления об изменении темы приложения.
@@ -67,5 +55,23 @@ class AGTabBarPopupButton: AGButton {
     @objc func updateColors() {
         backgroundColor = AGThemeManager.viewBackgroundColor
         setTitleColor(AGThemeManager.textFieldTextColor, for: .normal)
+    }
+    
+    /* При смене языка нужно обновить фреймы и отступы у контента кнопки */
+    override func changeLanguage() {
+        super.changeLanguage()
+        centerVertically()
+    }
+    
+    // MARK: - Private functions
+    
+    /* Метод центрирует иконку и текст у кнопки */
+    private func centerVertically() {
+        let imageSize = imageView!.frame.size
+        let titleSize = titleLabel!.frame.size
+        let totalHeight = imageSize.height + titleSize.height
+
+        imageEdgeInsets = UIEdgeInsets(top: -(totalHeight - imageSize.height), left: 0, bottom: 0, right: -titleSize.width)
+        titleEdgeInsets = UIEdgeInsets(top: 0, left: -imageSize.width, bottom: -(totalHeight - titleSize.height), right: 0)
     }
 }
