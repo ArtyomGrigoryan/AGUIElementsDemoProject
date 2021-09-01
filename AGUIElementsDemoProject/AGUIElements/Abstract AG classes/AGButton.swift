@@ -18,8 +18,9 @@ class AGButton: UIButton {
     init(buttonTitleKey: String!, font: UIFont!, width: CGFloat, height: CGFloat, icon: String? = nil) {
         // Вызовем конструктор базового класса - UIButton.
         super.init(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        // Установим иконку для кнопки.
+        // Если у кнопки должна быть иконка,
         if let icon = icon {
+            // то установим её.
             setImage(UIImage(named: icon), for: .normal)
         }
         // Ключ тайтла кнопки пригодится при смене языка (метод changeLanguage).

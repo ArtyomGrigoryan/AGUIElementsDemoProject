@@ -67,11 +67,25 @@ class AGTabBarPopupButton: AGButton {
     
     /* Метод центрирует иконку и текст у кнопки */
     private func centerVertically() {
+        var titleSize = CGSize.zero
         let imageSize = imageView!.frame.size
-        let titleSize = titleLabel!.frame.size
+        let textSize = textSize(text: titleLabel!.text!, font: titleLabel!.font)
+        
+        if textSize.width < frame.size.width {
+            titleSize = textSize
+        } else {
+            titleSize = titleLabel!.frame.size
+        }
+        
         let totalHeight = imageSize.height + titleSize.height
-
+ 
         imageEdgeInsets = UIEdgeInsets(top: -(totalHeight - imageSize.height), left: 0, bottom: 0, right: -titleSize.width)
         titleEdgeInsets = UIEdgeInsets(top: 0, left: -imageSize.width, bottom: -(totalHeight - titleSize.height), right: 0)
+    }
+    
+    /* Метод находит размеры текста */
+    private func textSize(text: String, font: UIFont?) -> CGSize {
+        let attributes = font != nil ? [NSAttributedString.Key.font: font] : [:]
+        return text.size(withAttributes: attributes as [NSAttributedString.Key : Any])
     }
 }
